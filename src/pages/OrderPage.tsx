@@ -101,7 +101,7 @@ function ProductAddToCart({ item, addItem, triggerToast }: any) {
             </div>
         </div>
     );
-} 
+}
 
 export default function OrderPage() {
     const { addItem } = useCartStore();
@@ -113,15 +113,6 @@ export default function OrderPage() {
     const triggerToast = () => {
         setShowToast(true);
         setTimeout(() => setShowToast(false), 2500); // Verdwijnt na 2.5 sec
-    };
-
-    // De Weekly Special als een vast object
-    const weeklySpecial = {
-        id: "weekly-special-reset",
-        name: "Kurkuma, Kers Vitaminewater",
-        price: 550, // Vaste prijs
-        description: "Compleet pakket: 2 juices en 2 smoothies van 350 ml & 1 Kurkuma & Kers vitaminewater van 1L.",
-        img: specialImg
     };
 
     useEffect(() => {
@@ -142,6 +133,15 @@ export default function OrderPage() {
     if (!menuData) {
         return <div className="...">Er is iets misgegaan bij het laden van het menu.</div>;
     }
+
+    // De Weekly Special als een vast object
+    const weeklySpecial = {
+        id: menuData.weeklyDeal.id,
+        name: menuData.weeklyDeal.name,
+        price: menuData.weeklyDeal.options?.[0]?.price, // Vaste prijs
+        description: "Compleet pakket: 2 juices en 2 smoothies van 350 ml & 1 Kurkuma & Kers vitaminewater van 1L.",
+        img: specialImg
+    };
 
     return (
         <>
@@ -253,12 +253,12 @@ export default function OrderPage() {
                                         key={item.id}
                                         className="bg-white px-3 py-3 shadow-xs border border-gray-100 flex flex-col"
                                     >
-                                  
+
                                         <div className="h-40 flex items-center justify-center mb-1">
                                             <img src={item.img} alt={item.name} className="max-h-full w-auto object-contain drop-shadow-xl" />
                                         </div>
 
-                                  
+
                                         <div className="flex-grow flex flex-col">
                                             <h4 className="font-bold text-gray-800 mb-1 leading-tight capitalize text-sm">
                                                 {item.name}
@@ -275,7 +275,6 @@ export default function OrderPage() {
                         </div>
                     ))}
 
-                    {/* Wellness Shots */}
                     {/* Wellness Shots */}
                     <div>
                         <h2 className="text-3xl font-black italic mb-8 border-l-8 border-bioGreen pl-4">Wellness Shots</h2>
@@ -323,45 +322,18 @@ export default function OrderPage() {
                         </div>
                     </div>
 
-                    {/* <div>
-                        <h2 className="text-3xl font-black italic mb-8 border-l-8 border-bioGreen pl-4">Wellness Shots</h2>
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 mb-16">
-                            {menuData.wellnessShots.map(({ item, index }: {
-                                item: any
-                                index: any
-                            }) => (
-                                <div key={`shot-${index}`} className="bg-white px-3 py-3 shadow-xs border border-gray-100 flex flex-col">
-                                    <img src={item.img} alt={item.name} className="w-32 h-auto mx-auto mb-1" />
-                                    <h4 className="font-bold text-gray-800 mb-2 h-10 line-clamp-2 capitalize text-sm">{item.name}</h4>
-                                    <p className="text-xs text-gray-500 mb-1">{item.qty}</p>
-                                    <p className="text-sm font-black mb-3">SRD 500</p>
-
-                                    <button
-                                        onClick={() => { addItem({ id: `shot-${index}`, name: item.name, price: 500, quantity: 1, img: item.img }); triggerToast() }}
-                                        className="w-full bg-bioGreen h-12 rounded-full text-white text-sm hover:bg-bioGreen hover:text-white transition-colors"
-                                    >
-                                        In winkelmandje
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                    </div> */}
-
                     {/* Vitamine Water */}
-                    {/* <div>
+                    <div>
                         <h2 className="text-3xl font-black italic mb-8 border-l-8 border-bioGreen pl-4">Vitamine Water</h2>
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 mb-16">
-                            {menuData.vitamineWater.map(({ item, index }: {
-                                item: any
-                                index: any
-                            }) => (
+                            {menuData.vitamineWater.map((item: any, index: number) => (
                                 <div key={`vitawater-${index}`} className="bg-white px-3 py-3 shadow-xs border border-gray-100 flex flex-col">
                                     <img src={item.img} alt={item.name} className="w-32 h-auto mx-auto mb-4" />
                                     <h4 className="font-bold text-gray-800 mb-1 line-clamp-2 capitalize text-sm">{item.name}</h4>
                                     <p className="text-xs text-gray-500 mb-1">1000 ML</p>
-                                    <p className="text-sm font-black mb-3">{item.price}</p>
+                                    <p className="text-sm font-black mb-3">SRD {item.options?.[0]?.price}</p>
                                     <button
-                                        onClick={() => { addItem({ id: `vitawater-${index}`, name: item.name, price: parsePrice(item.price), quantity: 1, img: item.img }); triggerToast() }}
+                                        onClick={() => { addItem({ id: `vitawater-${index}`, name: item.name, price: item.options?.[0]?.price, quantity: 1, img: item.img }); triggerToast() }}
                                         className="w-full bg-bioGreen h-12 rounded-full text-white text-sm hover:bg-bioGreen hover:text-white transition-colors"
                                     >
                                         In winkelmandje
@@ -369,56 +341,101 @@ export default function OrderPage() {
                                 </div>
                             ))}
                         </div>
-                    </div> */}
+                    </div>
 
                     {/* Cleanse & Heal Set */}
-                    {/* <div>
+                    <div>
                         <h2 className="text-3xl font-black italic mb-8 border-l-8 border-bioGreen pl-4">Cleanse & Heal Set</h2>
                         <div className="bg-white p-6 shadow-xs border border-gray-100 flex flex-col lg:flex-row items-center gap-6 mb-16">
-                            <div className="flex-shrink-0 grid grid-cols-3 gap-4">
-                                {menuData.cleanseAndHeal.map(({ item, index }: {
-                                    item: any
-                                    index: any
-                                }) => (
-                                    <div key={`cleanse-${index}`}>
-                                        <img src={item.img} alt={item.name} className="w-24 h-auto" />
-                                        <p className="text-xs text-center text-gray-500 mb-1">{item.info}</p>
+                            <div className="flex-shrink-0">
 
+                                <div className="flex flex-col items-center gap-4">
+                                    <img src={menuData.cleanseAndHeal.img} alt={menuData.cleanseAndHeal.name} className="w-[200px] h-auto" />
+                                    {/* <p className="text-xs text-center text-gray-500 mb-1">{item.name}</p> */}
+                                    <div className="flex-grow">
+                                        <h4 className="font-bold text-sm text-gray-800 mb-2">{menuData.cleanseAndHeal.name}</h4>
+                                        <p className="text-gray-600 text-sm mb-1">{menuData.cleanseAndHeal.description}</p>
+                                        <p className="font-bold text-sm text-bioGreen"><span className="line-through text-gray-400 text-sm">SRD 900</span> SRD {menuData.cleanseAndHeal.options?.[0]?.price}</p>
                                     </div>
-                                ))}
+                                </div>
+
                             </div>
-                            <div className="flex-grow">
-                                <h4 className="font-bold text-sm text-gray-800 mb-2">Complete Cleanse & Heal Set</h4>
-                                <p className="text-gray-600 text-sm mb-1">Een complete set van Gember shots, Aloë vera juice en Kurkuma vitamine water voor een volledige reset.</p>
-                                <p className="font-bold text-sm text-bioGreen"><span className="line-through text-gray-400 text-sm">SRD 900</span> SRD 850</p>
-                            </div>
+
                             <div className="flex-shrink-0 w-full lg:w-auto">
-                                <button
-                                    onClick={() => { addItem({ id: 'cleanse-set', name: 'Cleanse & Heal Set', price: 850, quantity: 1, img: menuData.cleanseAndHeal[0].img }); triggerToast() }}
+                                {/* <button
+                                    onClick={() => { addItem({ id: 'cleanse-set', name: menuData.cleanseAndHeal.name, price: menuData.cleanseAndHeal.options?.[0]?.price, quantity: 1, img: menuData.cleanseAndHeal.img }); triggerToast() }}
                                     className="w-full bg-bioGreen h-12 px-6 rounded-full text-white text-sm hover:bg-bioGreen hover:text-white transition-colors"
                                 >
                                     In winkelmandje
+                                </button> */}
+
+                                <button
+                                    onClick={() => {
+                                        const set = menuData.cleanseAndHeal;
+                                        const selectedOption = set.options?.[0];
+
+                                        addItem({
+                                            // Voeg een unieke ID toe die past bij de andere producten
+                                            id: `${set.id}-set`,
+                                            // Belangrijk: De naam moet de tekst zijn die je in WhatsApp wilt zien
+                                            name: `${set.name} (Pakket)`,
+                                            // Forceer de prijs naar een echt getal
+                                            price: Number(selectedOption?.price || 850),
+                                            quantity: 1,
+                                            img: set.img
+                                        });
+                                        triggerToast();
+                                    }}
+                                    className="w-full bg-bioGreen h-12 px-6 rounded-full text-white text-sm hover:bg-bioGreen transition-all"
+                                >
+                                    In winkelmandje
                                 </button>
+
+                                {/* <button
+                                    onClick={() => {
+                                        // We halen de data even netjes op voor de duidelijkheid
+                                        const set = menuData.cleanseAndHeal;
+                                        const firstOption = set.options?.[0];
+
+                                        addItem({
+                                            // 1. Zorg dat de ID de index bevat, net als bij de sappen (bijv: cH01-0)
+                                            id: `${set.id}-0`,
+
+                                            // 2. Voeg het label toe aan de naam (bijv: "Complete Cleanse & Heal (Pakket)")
+                                            // Dit zorgt ervoor dat de WhatsApp-generator de volledige omschrijving pakt
+                                            name: `${set.name} (${firstOption?.label})`,
+
+                                            // 3. Forceer de prijs naar een Number (of String als je generator dat eist)
+                                            price: Number(firstOption?.price),
+
+                                            quantity: 1,
+                                            img: set.img
+                                        });
+                                        triggerToast();
+                                    }}
+                                    className="w-full bg-bioGreen h-12 px-6 rounded-full text-white text-sm hover:opacity-90 transition-all active:scale-95"
+                                >
+                                    In winkelmandje
+                                </button> */}
                             </div>
                         </div>
-                    </div> */}
+                    </div>
 
                     {/* Sappenkuur */}
-                    {/* <div>
+                    <div>
                         <h2 className="text-3xl font-black italic mb-8 border-l-8 border-bioGreen pl-4">Sappenkuur</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 mb-2">
-                            {menuData.sappenkuur.map(({ item, index }: {
-                                item: any
-                                index: any
-                            }) => (
+                            {menuData.sappenkuur.map((item: any, index: number) => (
                                 <div key={`kuur-${index}`} className="bg-white p-4 shadow-xs border border-gray-100 flex flex-col">
-                                    <h3 className="font-black text-lg text-bioGreen mb-2">{item.d}</h3>
-                                    <h4 className="font-bold text-sm text-gray-800 mb-2">{item.i}</h4>
-                                    <p className="text-xs text-gray-600 mb-1 flex-grow">{item.qty}</p>
-                                    <p className="text-sm font-black mb-3">SRD {item.p}</p>
+                                    <img src={item.img} alt={item.name} className="w-full h-auto mx-auto mb-4" />
+                                    <h3 className="font-black text-lg text-bioGreen mb-2">{item.name}</h3>
+                                    <h4 className="font-bold text-sm text-gray-800 mb-2">{item.options?.[0]?.label}</h4>
+                                    <p className="text-sm text-gray-600 mb-1 flex-grow">{item.description}</p>
+                                    <p className="text-sm font-black mb-3">SRD {item.options?.[0]?.price
+                                    }</p>
 
                                     <button
-                                        onClick={() => { addItem({ id: `kuur-${index}`, name: `Sappenkuur ${item.d}`, price: parseInt(item.p, 10), quantity: 1, img: menuData.cleanseAndHeal[0].img }); triggerToast() }}
+                                        onClick={() => { addItem({ id: `kuur-${index}`, name: `Sappenkuur ${item.name}`, price: item.options?.[0]?.price, quantity: 1, img: item.img }); triggerToast() }}
                                         className="w-full bg-bioGreen h-12 rounded-full text-white text-sm hover:bg-bioGreen hover:text-white transition-colors"
                                     >
                                         In winkelmandje
@@ -426,7 +443,7 @@ export default function OrderPage() {
                                 </div>
                             ))}
                         </div>
-                    </div> */}
+                    </div>
 
                 </div>
 

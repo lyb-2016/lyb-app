@@ -180,10 +180,20 @@ export default function CartSidebar() {
     };
 
     const handleWhatsApp = () => {
-        const items = cart.map(i => `• ${i.quantity}x ${i.name} - SRD ${i.price * i.quantity}`).join('%0A');
-        const giftText = hasWonGift ? `%0A🎁 *CADEAU: 1x GRATIS ${randomGift?.name} (350ml)*` : '';
-        const message = `Hallo LYB! 👋 Bestelling:%0A%0A${items}${giftText}%0A%0A*Totaal: SRD ${grandTotal}*%0A_Inclusief bezorging en verrassing._`;
-        window.open(`https://wa.me/5978531071?text=${message}`, '_blank');
+        const items = cart.map(i => {
+            // Zorg dat we met getallen rekenen
+            const itemPrice = Number(i.price) || 0;
+            const itemQty = Number(i.quantity) || 1;
+            const lineTotal = itemPrice * itemQty;
+
+            return `• ${itemQty}x ${i.name} - SRD ${lineTotal}`;
+        }).join('\n');
+
+        const giftText = hasWonGift ? `\nCADEAU: 1x GRATIS ${randomGift?.name} (350ml)` : '';
+
+        const message = `Hallo LYB! Ik wil graag de volgende bestelling plaatsen:\n\n${items}${giftText}\n\nTotaal: SRD ${grandTotal}\nInclusief bezorging.`;
+
+        window.open(`https://wa.me/5978531071?text=${encodeURIComponent(message)}`, '_blank');
     };
 
     return (

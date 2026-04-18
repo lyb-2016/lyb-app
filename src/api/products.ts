@@ -29,9 +29,8 @@ import shot2 from "../assets/lybMenu/shot2.webp";
 import shot3 from "../assets/lybMenu/shot3.webp";
 import shot4 from "../assets/lybMenu/shot4.webp";
 import shot5 from "../assets/lybMenu/shot5.webp";
-import comboshots from "../assets/lybMenu/cleanse1.webp";
-import combojuice from "../assets/lybMenu/cleanse2.webp";
-import combovit from "../assets/lybMenu/cleanse3.webp";
+import cleanseHeal from "../assets//bestelling/cleanseHeal.png";
+import sappenkuur from "../assets/bestelling/sappenkuur.webp";
 
 // --- De Data (Privé in dit bestand) ---
 const MOCK_DATA = {
@@ -81,29 +80,27 @@ const MOCK_DATA = {
         { id: "vw06", name: "sjoeroe", img: vit6, category: "vitamine-water", options: [{ label: "1000 ml", price: 110 }] },
         { id: "vw07", name: "appelazijn", img: vit7, category: "vitamine-water", options: [{ label: "1000 ml", price: 110 }] }
     ],
-    cleanseAndHeal: [
-        {
-            id: "cleanseAndHeal",
-            title: "Cleanse & Heal",
-            items: [
-                { id: "ch01", name: "gember-citroengras", img: comboshots, category: "cleanse", options: [{ label: "3x 125 ml", price: 850 }] },
-                { id: "ch02", name: "gember-lemmetje", img: combojuice, category: "cleanse", options: [{ label: "3x 350 ml", price: 850 }] },
-                { id: "ch03", name: "kurkuma-kers", img: combovit, category: "cleanse", options: [{ label: "3x 1000 ml", price: 850 }] }
-            ]
-        }
-    ],
+    cleanseAndHeal: {
+        id: "cH01",
+        name: "Complete Cleanse & Heal",
+        img: cleanseHeal,
+        description: "Een complete set van Gember shots (3x 125 ml), Aloë vera juice (3x 350 ml) en Kurkuma vitamine water (3x 1000ml) voor een volledige reset.",
+        category: "cleanse-and-heal",
+        options: [{ label: "3x 125 ml + 3x 350 ml + 3x 1000 ml", price: 850 }]
+    },
     sappenkuur: [
-        { id: "sk01", name: "1-daagse", img: "", category: "detox", options: [{ label: "8 flessen + 1 shot GRATIS", price: 850 }] },
-        { id: "sk02", name: "3-daagse", img: "", category: "detox", options: [{ label: "24 flessen + 3 shots GRATIS", price: 2500 }] },
-        { id: "sk03", name: "5-daagse", img: "", category: "detox", options: [{ label: "40 flessen + 5 shots GRATIS", price: 4100 }] },
-        { id: "sk04", name: "7-daagse", img: "", category: "detox", options: [{ label: "56 flessen + 7 shots GRATIS", price: 5700 }] }
+        { id: "sk01", name: "1-daagse", img: sappenkuur, description: "1 set van (1 vitaminewater, 3 greens, 4 fruits) + 1 GRATIS shot.", category: "detox", options: [{ label: "8 flessen (350 ml) + 1 shot GRATIS", price: 850 }] },
+        { id: "sk02", name: "3-daagse", img: sappenkuur, description: "3 sets van (1 vitaminewater, 3 greens, 4 fruits) + 3 GRATIS shots.", category: "detox", options: [{ label: "24 flessen (350 ml) + 3 shots GRATIS", price: 2500 }] },
+        { id: "sk03", name: "5-daagse", img: sappenkuur, description: "5 sets van (1 vitaminewater, 3 greens, 4 fruits) + 5 GRATIS shots.", category: "detox", options: [{ label: "40 flessen (350 ml) + 5 shots GRATIS", price: 4100 }] },
+        { id: "sk04", name: "7-daagse", img: sappenkuur, description: "7 sets van (1 vitaminewater, 3 greens, 4 fruits) + 7 GRATIS shots.", category: "detox", options: [{ label: "56 flessen (350 ml) + 7 shots GRATIS", price: 5700 }] }
     ],
     weeklyDeal: {
         id: "wd01",
-        name: "gember-citroengras",
+        name: "Weekly Special Combo",
         img: vit1,
+        description: "test",
         category: "specials",
-        options: [{ label: "1000 ml", price: 125 }]
+        options: [{ label: "1000 ml", price: 550 }]
     }
 };
 
@@ -125,8 +122,8 @@ const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 // };
 
 export const getFullMenu = async () => {
-  await delay(800); // 0.8 seconde 'laadtijd'
-  return MOCK_DATA;
+    await delay(800); // 0.8 seconde 'laadtijd'
+    return MOCK_DATA;
 };
 
 export const getJuicesAndSmoothies = async (): Promise<CategoryData[]> => {
@@ -144,7 +141,7 @@ export const getVitamineWater = async (): Promise<Product[]> => {
     return MOCK_DATA.vitamineWater;
 };
 
-export const getCleanseAndHeal = async (): Promise<CategoryData[]> => {
+export const getCleanseAndHeal = async (): Promise<Product> => {
     await delay(600);
     return MOCK_DATA.cleanseAndHeal;
 };
