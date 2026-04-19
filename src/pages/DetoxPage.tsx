@@ -15,10 +15,10 @@ export default function DetoxPage() {
     const [showToast, setShowToast] = useState(false); // State voor de melding
 
     const packages = [
-        { day: "1-daagse", label: "For Comfort", content: "8 flessen (350ml) + 1 wellness shot GRATIS", price: "SRD 850" },
-        { day: "3-daagse", label: "For Beginners", content: "24 flessen (350ml) + 1 wellness shot GRATIS", price: "SRD 2500" },
-        { day: "5-daagse", label: "Most Popular", content: "40 flessen (350ml) + 1L vitamine water GRATIS", price: "SRD 4100" },
-        { day: "7-daagse", label: "For Advanced", content: "56 flessen (350ml) + 2L vitamine water GRATIS", price: "SRD 5700" },
+        { id: "detox-1", day: "1-daagse", label: "For Comfort", content: "8 flessen (350ml) + 1 wellness shot GRATIS", price: "SRD 850" },
+        { id: "detox-3", day: "3-daagse", label: "For Beginners", content: "24 flessen (350ml) + 1 wellness shot GRATIS", price: "SRD 2500" },
+        { id: "detox-5", day: "5-daagse", label: "Most Popular", content: "40 flessen (350ml) + 1L vitamine water GRATIS", price: "SRD 4100" },
+        { id: "detox-7", day: "7-daagse", label: "For Advanced", content: "56 flessen (350ml) + 2L vitamine water GRATIS", price: "SRD 5700" },
     ];
 
     const benefits = [

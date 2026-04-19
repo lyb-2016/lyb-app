@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 import { fadeInUp } from "../animations/Varianten";
 import hero from "../assets/heroSection/heroW.webp";
-import fruitBg from "../assets/fluidButton.webp";
+// import fruitBg from "../assets/fluidButton.webp";
 import { BiSolidLeaf } from "react-icons/bi";
 import SectionWrapper from "../animations/SectionWrapper";
-import WipeButton from "./tools/Button";
+// import WipeButton from "./tools/Button";
 
 export default function HeroSection() {
   return (
@@ -24,7 +24,7 @@ export default function HeroSection() {
       </div>
 
       {/* 2. CONTENT: Onder de afbeelding */}
-      <div className="relative z-10 max-w-screen-2xl mx-auto px-6 sm:px-8 md:px-12 py-10">
+      <div className="relative z-10 max-w-screen-2xl mx-auto px-6 sm:px-8 md:px-12 py-14">
         <div className="flex flex-col items-center">
           
           <SectionWrapper
@@ -70,7 +70,7 @@ export default function HeroSection() {
               </li>
             </motion.ul>
 
-            <motion.div variants={fadeInUp} className="mt-6">
+            {/* <motion.div variants={fadeInUp} className="mt-6">
               <WipeButton
                 to="/menu"
                 style={{ backgroundImage: `url(${fruitBg})` }}
@@ -78,7 +78,7 @@ export default function HeroSection() {
               >
                 Bekijk ons menu
               </WipeButton>
-            </motion.div>
+            </motion.div> */}
 
           </SectionWrapper>
         </div>

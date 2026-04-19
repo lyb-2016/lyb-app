@@ -162,7 +162,7 @@ export default function OrderPage() {
                         <motion.div
                             initial={{ opacity: 0, y: -20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="relative w-full bg-gradient-to-r from-yellow-400 to-orange-500 py-8 overflow-hidden flex flex-col md:flex-row items-center justify-between"
+                            className="relative w-full bg-gradient-to-r from-yellow-400 to-orange-500 py-8 overflow-hidden flex flex-col md:flex-row items-center justify-center"
                         >
                             {/* Decoratieve Sparkles op achtergrond */}
                             <IoSparklesOutline className="absolute left-4 top-4 text-white/20 text-6xl rotate-12" />
@@ -191,29 +191,25 @@ export default function OrderPage() {
                     {/* 2. WEEKLY SPECIAL (Zonder Dropdown) */}
                     <section className="mt-16 mb-20">
                         <h2 className="text-3xl font-black italic mb-8 border-l-8 border-bioGreen pl-4">Weekly Special</h2>
-                        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        <div className="max-w-screen-md">
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 whileInView={{ opacity: 1, scale: 1 }}
-                                className="bg-white p-6 rounded-xl shadow-sm border-2 border-orange-200 flex flex-col min-h-[420px] relative"
+                                className="bg-white p-6 rounded-xl shadow-sm border-2 border-orange-200 flex flex-col md:flex-row md:gap-10 relative"
                             >
-                                <div className="absolute top-4 right-4 bg-orange-500 text-white text-[9px] font-black px-3 py-1 rounded-full uppercase z-10">As Seen On Social Media</div>
+                                <div className="absolute top-4 left-4 bg-orange-500 text-white text-[9px] font-black px-3 py-1 rounded-full uppercase z-10">As Seen On Social Media</div>
 
                                 {/* Afbeelding */}
-                                <div className="h-full flex items-center justify-center mb-4">
+                                <div className="w-full md:w-[300px] h-full flex items-center justify-center mb-0">
                                     <img src={weeklySpecial.img} alt={weeklySpecial.name} className="max-h-full w-auto object-contain" />
                                 </div>
 
                                 {/* Info */}
-                                <div className="flex-grow flex flex-col">
+                                <div className="flex flex-col">
                                     <span className="text-[12px] font-black text-orange-400 mb-1 uppercase">Vers van de week</span>
                                     <h4 className="font-bold text-gray-800 mb-2 leading-tight text-sm">{weeklySpecial.name}</h4>
-                                    <p className="text-[11px] text-gray-400 font-medium mb-1 italic">{weeklySpecial.description}</p>
-
-                                    {/* Prijs weergave */}
-                                    <div className="mb-4 mt-auto">
-                                        <p className="text-sm font-black">SRD {weeklySpecial.price}</p>
-                                    </div>
+                                    <p className="max-w-screen-sm text-sm text-gray-400 font-medium mb-1 italic">{weeklySpecial.description}</p>
+                                    <p className="text-sm font-black pb-2">SRD {weeklySpecial.price}</p>
 
                                     {/* Directe Add Button (Geen dropdown) */}
                                     <button
@@ -227,20 +223,12 @@ export default function OrderPage() {
                                             });
                                             triggerToast();
                                         }}
-                                        className="w-full bg-bioGreen text-white h-12 rounded-full text-sm tracking-wide hover:bg-bioGreen transition-all active:scale-95 flex items-center justify-center gap-2"
+                                        className="w-full sm:w-[280px] bg-bioGreen text-white h-12 rounded-full text-sm tracking-wide hover:bg-bioGreen transition-all active:scale-95 flex items-center justify-center gap-2"
                                     >
                                         In winkelmandje
                                     </button>
                                 </div>
                             </motion.div>
-
-                            {/* Informatie tekstje ernaast */}
-                            <div className="hidden md:flex bg-neutral-100 rounded-[2.5rem] p-8 flex-col justify-center border border-dashed border-gray-200">
-                                <p className="text-gray-400 text-sm italic font-medium">
-                                    "Onze Weekly Special is een zorgvuldig samengesteld pakket voor de ultieme boost. <br /><br />
-                                    Geen keuzestress, gewoon de beste smaken van dit moment in één deal."
-                                </p>
-                            </div>
                         </div>
                     </section>
 
@@ -347,77 +335,46 @@ export default function OrderPage() {
                     <div>
                         <h2 className="text-3xl font-black italic mb-8 border-l-8 border-bioGreen pl-4">Cleanse & Heal Set</h2>
                         <div className="bg-white p-6 shadow-xs border border-gray-100 flex flex-col lg:flex-row items-center gap-6 mb-16">
-                            <div className="flex-shrink-0">
-
-                                <div className="flex flex-col items-center gap-4">
-                                    <img src={menuData.cleanseAndHeal.img} alt={menuData.cleanseAndHeal.name} className="w-[200px] h-auto" />
-                                    {/* <p className="text-xs text-center text-gray-500 mb-1">{item.name}</p> */}
-                                    <div className="flex-grow">
-                                        <h4 className="font-bold text-sm text-gray-800 mb-2">{menuData.cleanseAndHeal.name}</h4>
-                                        <p className="text-gray-600 text-sm mb-1">{menuData.cleanseAndHeal.description}</p>
-                                        <p className="font-bold text-sm text-bioGreen"><span className="line-through text-gray-400 text-sm">SRD 900</span> SRD {menuData.cleanseAndHeal.options?.[0]?.price}</p>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div className="flex-shrink-0 w-full lg:w-auto">
-                                {/* <button
+                            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-200">
+                                <img src={menuData.cleanseAndHeal.img} alt={menuData.cleanseAndHeal.name} className="w-[200px] h-auto" />
+                                {/* <p className="text-xs text-center text-gray-500 mb-1">{item.name}</p> */}
+                                <div className="">
+                                    <h4 className="font-bold text-sm text-gray-800 mb-2">{menuData.cleanseAndHeal.name}</h4>
+                                    <p className="max-w-screen-sm text-gray-600 text-sm mb-1">{menuData.cleanseAndHeal.description}</p>
+                                    <p className="font-bold text-sm text-bioGreen"><span className="line-through text-gray-400 text-sm">SRD 900</span> SRD {menuData.cleanseAndHeal.options?.[0]?.price}</p>
+                                    <div className="flex-shrink-0 pt-2 w-full lg:w-auto">
+                                        {/* <button
                                     onClick={() => { addItem({ id: 'cleanse-set', name: menuData.cleanseAndHeal.name, price: menuData.cleanseAndHeal.options?.[0]?.price, quantity: 1, img: menuData.cleanseAndHeal.img }); triggerToast() }}
                                     className="w-full bg-bioGreen h-12 px-6 rounded-full text-white text-sm hover:bg-bioGreen hover:text-white transition-colors"
                                 >
                                     In winkelmandje
                                 </button> */}
 
-                                <button
-                                    onClick={() => {
-                                        const set = menuData.cleanseAndHeal;
-                                        const selectedOption = set.options?.[0];
+                                        <button
+                                            onClick={() => {
+                                                const set = menuData.cleanseAndHeal;
+                                                const selectedOption = set.options?.[0];
 
-                                        addItem({
-                                            // Voeg een unieke ID toe die past bij de andere producten
-                                            id: `${set.id}-set`,
-                                            // Belangrijk: De naam moet de tekst zijn die je in WhatsApp wilt zien
-                                            name: `${set.name} (Pakket)`,
-                                            // Forceer de prijs naar een echt getal
-                                            price: Number(selectedOption?.price || 850),
-                                            quantity: 1,
-                                            img: set.img
-                                        });
-                                        triggerToast();
-                                    }}
-                                    className="w-full bg-bioGreen h-12 px-6 rounded-full text-white text-sm hover:bg-bioGreen transition-all"
-                                >
-                                    In winkelmandje
-                                </button>
-
-                                {/* <button
-                                    onClick={() => {
-                                        // We halen de data even netjes op voor de duidelijkheid
-                                        const set = menuData.cleanseAndHeal;
-                                        const firstOption = set.options?.[0];
-
-                                        addItem({
-                                            // 1. Zorg dat de ID de index bevat, net als bij de sappen (bijv: cH01-0)
-                                            id: `${set.id}-0`,
-
-                                            // 2. Voeg het label toe aan de naam (bijv: "Complete Cleanse & Heal (Pakket)")
-                                            // Dit zorgt ervoor dat de WhatsApp-generator de volledige omschrijving pakt
-                                            name: `${set.name} (${firstOption?.label})`,
-
-                                            // 3. Forceer de prijs naar een Number (of String als je generator dat eist)
-                                            price: Number(firstOption?.price),
-
-                                            quantity: 1,
-                                            img: set.img
-                                        });
-                                        triggerToast();
-                                    }}
-                                    className="w-full bg-bioGreen h-12 px-6 rounded-full text-white text-sm hover:opacity-90 transition-all active:scale-95"
-                                >
-                                    In winkelmandje
-                                </button> */}
+                                                addItem({
+                                                    // Voeg een unieke ID toe die past bij de andere producten
+                                                    id: `${set.id}-set`,
+                                                    // Belangrijk: De naam moet de tekst zijn die je in WhatsApp wilt zien
+                                                    name: `${set.name} (Pakket)`,
+                                                    // Forceer de prijs naar een echt getal
+                                                    price: Number(selectedOption?.price || 850),
+                                                    quantity: 1,
+                                                    img: set.img
+                                                });
+                                                triggerToast();
+                                            }}
+                                            className="w-full sm:w-[280px] bg-bioGreen h-12 px-6 rounded-full text-white text-sm hover:bg-bioGreen transition-all"
+                                        >
+                                            In winkelmandje
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
                     </div>
 

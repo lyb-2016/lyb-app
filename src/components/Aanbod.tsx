@@ -128,18 +128,18 @@ export default function Aanbod() {
                 {/* Kaart 1: Het Menu */}
                 <SectionWrapper className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 flex flex-col justify-between text-center lg:text-left">
                     <div>
-                        <motion.h3 variants={fadeInUp} className="text-xl font-bold mb-3 italic">Volledig menu bekijken?</motion.h3>
+                        <motion.h3 variants={fadeInUp} className="text-xl font-bold mb-3 italic">Volledig aanbod bekijken?</motion.h3>
                         <motion.p variants={fadeInUp} className="body-text text-sm mb-6">
-                            Bekijk onze uitgebreide kaart met smoothies, juices en wellness drinks. <span className="font-semibold text-bioGreen italic">Altijd vers geblend</span> voor jouw dagelijkse vitamineboost.
+                            Bekijk onze uitgebreide aanbod met smoothies, juices en wellness drinks. <span className="font-semibold text-bioGreen italic">Altijd vers geblend</span> voor jouw dagelijkse vitamineboost.
                         </motion.p>
                     </div>
                     <motion.div variants={fadeInUp}>
                         <WipeButton
-                            to="/menu"
+                            to="/bestellen"
                             style={{ backgroundImage: `url(${fruitBg})` }}
                             className="w-full text-white shadow-sm"
                         >
-                            Bekijk het Menu
+                            Bekijk het LYB Aanbod
                         </WipeButton>
                     </motion.div>
                 </SectionWrapper>
