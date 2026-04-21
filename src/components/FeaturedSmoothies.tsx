@@ -145,7 +145,7 @@ export default function FeaturedSmoothies() {
                   style={{ backgroundImage: `url(${fruitBg})` }}
                   className="body w-full max-w-[240px] mx-auto bg-cover bg-center text-white"
                 >
-                  In winkelmandje
+                  In mandje
                 </WipeButton>
               </div>
             </motion.div>

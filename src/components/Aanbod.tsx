@@ -83,7 +83,7 @@ export default function Aanbod() {
 
                             <motion.div initial="rest" animate="rest" whileHover="hover" className="relative">
                                 <Link
-                                    to={`/menu#${c.id}`}
+                                    to={`/bestellen#${c.id}`}
                                     className="block relative rounded-xl overflow-hidden shadow-md"
                                     aria-label={`Bekijk ons aanbod ${c.title}`}
                                 >

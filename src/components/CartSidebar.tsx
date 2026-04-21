@@ -153,6 +153,7 @@ export default function CartSidebar() {
     const [showScratchCard, setShowScratchCard] = useState(false);
     const [hasWonGift, setHasWonGift] = useState(false);
     const [randomGift, setRandomGift] = useState<any>(null);
+    const [showReminder, setShowReminder] = useState(false);
 
     const subtotal = totalPrice();
     const deliveryFee = 100;
@@ -180,18 +181,40 @@ export default function CartSidebar() {
     };
 
     const handleWhatsApp = () => {
-        const items = cart.map(i => {
-            // Zorg dat we met getallen rekenen
-            const itemPrice = Number(i.price) || 0;
-            const itemQty = Number(i.quantity) || 1;
-            const lineTotal = itemPrice * itemQty;
+        if (subtotal >= 500 && !hasWonGift) {
+            setShowReminder(true);
+            return;
+        }
 
-            return `• ${itemQty}x ${i.name} - SRD ${lineTotal}`;
-        }).join('\n');
+        executeWhatsAppLink();
 
-        const giftText = hasWonGift ? `\nCADEAU: 1x GRATIS ${randomGift?.name} (350ml)` : '';
+        // const wave = String.fromCodePoint(0x1F44B);  // 👋
+        // const gift = String.fromCodePoint(0x1F381);  // 🎁
+        // const bullet = String.fromCodePoint(0x2022); // •
 
-        const message = `Hallo LYB! Ik wil graag de volgende bestelling plaatsen:\n\n${items}${giftText}\n\nTotaal: SRD ${grandTotal}\nInclusief bezorging.`;
+        // const items = cart.map(i => {
+        //     // Zorg dat we met getallen rekenen
+        //     const itemPrice = Number(i.price) || 0;
+        //     const itemQty = Number(i.quantity) || 1;
+        //     const lineTotal = itemPrice * itemQty;
+
+        //     return `${bullet} ${itemQty}x ${i.name} - SRD ${lineTotal}`;
+        // }).join('\n');
+
+        // const giftText = hasWonGift ? `\n ${gift} CADEAU: 1x GRATIS ${randomGift?.name} (350ml)` : '';
+        // const message = `Hallo LYB! ${wave} Ik wil graag de volgende bestelling plaatsen:\n\n${items}${giftText}\n\nTotaal: SRD ${grandTotal}\nInclusief bezorging.`;
+
+        // window.open(`https://wa.me/5978531071?text=${encodeURIComponent(message)}`, '_blank');
+    };
+
+    const executeWhatsAppLink = () => {
+        const wave = String.fromCodePoint(0x1F44B);
+        const gift = String.fromCodePoint(0x1F381);
+        const bullet = String.fromCodePoint(0x2022);
+
+        const items = cart.map(i => `${bullet} ${i.quantity}x ${i.name} - SRD ${i.price * i.quantity}`).join('\n');
+        const giftText = hasWonGift ? `\n\n${gift} CADEAU: 1x GRATIS ${randomGift?.name} (350ml)` : '';
+        const message = `Hallo LYB! ${wave} Ik wil graag de volgende bestelling plaatsen:\n\n${items}${giftText}\n\nTotaal: SRD ${grandTotal}\nInclusief bezorging.`;
 
         window.open(`https://wa.me/5978531071?text=${encodeURIComponent(message)}`, '_blank');
     };
@@ -387,6 +410,68 @@ export default function CartSidebar() {
                             setTimeout(() => setShowScratchCard(false), 2500);
                         }}
                     />
+                )}
+            </AnimatePresence>
+
+            <AnimatePresence>
+                {showReminder && (
+                    <div className="fixed inset-0 z-[200] flex items-center justify-center p-6">
+                        {/* Backdrop */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setShowReminder(false)}
+                            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                        />
+
+                        {/* Modal Card */}
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                            className="relative bg-white w-full max-w-sm rounded-[2.5rem] overflow-hidden shadow-2xl"
+                        >
+                            {/* Decoratieve bovenkant */}
+                            <div className="bg-gradient-to-r from-yellow-400 to-orange-500 p-8 flex justify-center relative">
+                                <IoSparklesOutline className="absolute left-4 top-4 text-white/30 text-4xl" />
+                                <div className="bg-white p-4 rounded-3xl shadow-lg">
+                                    <IoGiftOutline size={50} className="text-orange-500 animate-bounce" />
+                                </div>
+                            </div>
+
+                            <div className="p-8 text-center">
+                                <h3 className="text-xl font-black text-gray-800 mb-2 italic">Wacht even! 🎁</h3>
+                                <p className="text-gray-500 text-sm leading-relaxed mb-8">
+                                    Je hebt een <span className="font-bold text-orange-500 capitalize">gratis cadeau</span> verdiend bij je bestelling, maar je hebt nog niet gekrast!
+                                </p>
+
+                                <div className="space-y-3">
+                                    {/* Hoofdknop: Terug naar kraskaart */}
+                                    <button
+                                        onClick={() => {
+                                            setShowReminder(false);
+                                            setShowScratchCard(true); // Open de kraskaart modal
+                                        }}
+                                        className="w-full bg-bioGreen text-white capitalize py-4 rounded-2xl font-black text-sm shadow-md hover:bg-bioGreen/90 transition-all active:scale-95"
+                                    >
+                                        Nu krassen & cadeau claimen
+                                    </button>
+
+                                    {/* Secundaire knop: Doorgaan zonder cadeau */}
+                                    <button
+                                        onClick={() => {
+                                            setShowReminder(false);
+                                            executeWhatsAppLink(); // Open direct WhatsApp
+                                        }}
+                                        className="w-full bg-transparent text-gray-400 py-2 rounded-xl underline font-bold text-xs hover:text-gray-600 transition-colors"
+                                    >
+                                        Nee bedankt, ga door naar WhatsApp
+                                    </button>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
                 )}
             </AnimatePresence>
         </>

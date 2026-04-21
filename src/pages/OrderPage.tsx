@@ -96,7 +96,7 @@ function ProductAddToCart({ item, addItem, triggerToast }: any) {
                     onClick={handleAdd}
                     className="bg-bioGreen w-full text-white text-sm h-12 rounded-full flex items-center justify-center hover:opacity-90 transition-all shadow-md active:scale-95"
                 >
-                    In winkelmandje
+                    In mandje
                 </button>
             </div>
         </div>
@@ -119,6 +119,18 @@ export default function OrderPage() {
         getFullMenu().then(data => {
             setMenuData(data);
             setLoading(false);
+
+            if (window.location.hash) {
+                setTimeout(() => {
+                    const id = window.location.hash.substring(1);
+                    const element = document.getElementById(id);
+                    if (element) {
+                        const yOffset = -80; // adjust for sticky header
+                        const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+                        window.scrollTo({ top: y, behavior: 'smooth' });
+                    }
+                }, 100);
+            }
         })
             .catch(err => {
                 console.error("Menu laden mislukt:", err);
@@ -191,17 +203,18 @@ export default function OrderPage() {
                     {/* 2. WEEKLY SPECIAL (Zonder Dropdown) */}
                     <section className="mt-16 mb-20">
                         <h2 className="text-3xl font-black italic mb-8 border-l-8 border-bioGreen pl-4">Weekly Special</h2>
-                        <div className="max-w-screen-md">
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                className="bg-white p-6 rounded-xl shadow-sm border-2 border-orange-200 flex flex-col md:flex-row md:gap-10 relative"
-                            >
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            className="bg-white p-6 rounded-xl shadow-sm border-2 border-orange-200 flex flex-col md:flex-row md:gap-10 relative"
+                        >
+                            <div className="flex flex-col md:flex-row gap-4">
+
                                 <div className="absolute top-4 left-4 bg-orange-500 text-white text-[9px] font-black px-3 py-1 rounded-full uppercase z-10">As Seen On Social Media</div>
 
                                 {/* Afbeelding */}
-                                <div className="w-full md:w-[300px] h-full flex items-center justify-center mb-0">
-                                    <img src={weeklySpecial.img} alt={weeklySpecial.name} className="max-h-full w-auto object-contain" />
+                                <div className="w-full md:w-[300px] lg:w-[250px] h-auto flex items-center justify-center mb-0">
+                                    <img src={weeklySpecial.img} alt={weeklySpecial.name} className="w-full h-auto object-contain" />
                                 </div>
 
                                 {/* Info */}
@@ -225,15 +238,16 @@ export default function OrderPage() {
                                         }}
                                         className="w-full sm:w-[280px] bg-bioGreen text-white h-12 rounded-full text-sm tracking-wide hover:bg-bioGreen transition-all active:scale-95 flex items-center justify-center gap-2"
                                     >
-                                        In winkelmandje
+                                        In mandje
                                     </button>
                                 </div>
-                            </motion.div>
-                        </div>
+                            </div>
+                        </motion.div>
+
                     </section>
 
                     {menuData.juicesAndSmoothies?.map((category: any) => (
-                        <div key={category.id}>
+                        <div key={category.id} id={category.id}>
                             <h2 className="text-3xl font-black italic mb-8 border-l-8 border-bioGreen pl-4">{category.title}</h2>
                             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 mb-16">
                                 {category.items?.map((item: any) => (
@@ -264,7 +278,7 @@ export default function OrderPage() {
                     ))}
 
                     {/* Wellness Shots */}
-                    <div>
+                    <div id="shots">
                         <h2 className="text-3xl font-black italic mb-8 border-l-8 border-bioGreen pl-4">Wellness Shots</h2>
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 mb-16">
                             {/* CORRECTE MAP: item is het eerste argument, index het tweede */}
@@ -302,7 +316,7 @@ export default function OrderPage() {
                                             }}
                                             className="w-full bg-bioGreen h-12 rounded-full text-white text-sm hover:opacity-90 transition-all active:scale-95"
                                         >
-                                            In winkelmandje
+                                            In mandje
                                         </button>
                                     </div>
                                 </div>
@@ -311,7 +325,7 @@ export default function OrderPage() {
                     </div>
 
                     {/* Vitamine Water */}
-                    <div>
+                    <div id="vitawater">
                         <h2 className="text-3xl font-black italic mb-8 border-l-8 border-bioGreen pl-4">Vitamine Water</h2>
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 mb-16">
                             {menuData.vitamineWater.map((item: any, index: number) => (
@@ -324,7 +338,7 @@ export default function OrderPage() {
                                         onClick={() => { addItem({ id: `vitawater-${index}`, name: item.name, price: item.options?.[0]?.price, quantity: 1, img: item.img }); triggerToast() }}
                                         className="w-full bg-bioGreen h-12 rounded-full text-white text-sm hover:bg-bioGreen hover:text-white transition-colors"
                                     >
-                                        In winkelmandje
+                                        In mandje
                                     </button>
                                 </div>
                             ))}
@@ -332,10 +346,10 @@ export default function OrderPage() {
                     </div>
 
                     {/* Cleanse & Heal Set */}
-                    <div>
+                    <div id="cleanse">
                         <h2 className="text-3xl font-black italic mb-8 border-l-8 border-bioGreen pl-4">Cleanse & Heal Set</h2>
                         <div className="bg-white p-6 shadow-xs border border-gray-100 flex flex-col lg:flex-row items-center gap-6 mb-16">
-                            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-200">
+                            <div className="flex flex-col md:flex-row items-center gap-4">
                                 <img src={menuData.cleanseAndHeal.img} alt={menuData.cleanseAndHeal.name} className="w-[200px] h-auto" />
                                 {/* <p className="text-xs text-center text-gray-500 mb-1">{item.name}</p> */}
                                 <div className="">
@@ -347,7 +361,7 @@ export default function OrderPage() {
                                     onClick={() => { addItem({ id: 'cleanse-set', name: menuData.cleanseAndHeal.name, price: menuData.cleanseAndHeal.options?.[0]?.price, quantity: 1, img: menuData.cleanseAndHeal.img }); triggerToast() }}
                                     className="w-full bg-bioGreen h-12 px-6 rounded-full text-white text-sm hover:bg-bioGreen hover:text-white transition-colors"
                                 >
-                                    In winkelmandje
+                                    In mandje
                                 </button> */}
 
                                         <button
@@ -369,7 +383,7 @@ export default function OrderPage() {
                                             }}
                                             className="w-full sm:w-[280px] bg-bioGreen h-12 px-6 rounded-full text-white text-sm hover:bg-bioGreen transition-all"
                                         >
-                                            In winkelmandje
+                                            In mandje
                                         </button>
                                     </div>
                                 </div>
@@ -379,7 +393,7 @@ export default function OrderPage() {
                     </div>
 
                     {/* Sappenkuur */}
-                    <div>
+                    <div id="detoxen">
                         <h2 className="text-3xl font-black italic mb-8 border-l-8 border-bioGreen pl-4">Sappenkuur</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 mb-2">
                             {menuData.sappenkuur.map((item: any, index: number) => (
@@ -395,7 +409,7 @@ export default function OrderPage() {
                                         onClick={() => { addItem({ id: `kuur-${index}`, name: `Sappenkuur ${item.name}`, price: item.options?.[0]?.price, quantity: 1, img: item.img }); triggerToast() }}
                                         className="w-full bg-bioGreen h-12 rounded-full text-white text-sm hover:bg-bioGreen hover:text-white transition-colors"
                                     >
-                                        In winkelmandje
+                                        In mandje
                                     </button>
                                 </div>
                             ))}
