@@ -1,15 +1,14 @@
 import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
-import { useCartStore } from "../store/useCartStore";
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+
+import { useCartStore } from "../store/useCartStore";
 import { getFullMenu } from "../api/products";
+import ProductSkeleton from "../components/ProductSkeleton";
 import { IoCartOutline, IoChevronDownOutline, IoSparklesOutline } from "react-icons/io5";
-// import { juicesAndSmoothies, wellnessShots, vitamineWater, cleanseAndHeal, sappenkuur } from '../data/menuData';
-
-// Importeer hier al je assets (zelfde als in MenuPage)
-import specialImg from "../assets/bestelling/comboSpecial.webp"; // Voorbeeld voor de banner
-import banner from "../assets/bestelling/bestelling.webp"; // Voorbeeld voor de banner
-
+import specialImg from "../assets/bestelling/comboSpecial.webp";
+import banner from "../assets/bestelling/bestelling.webp";
 
 function ProductAddToCart({ item, addItem, triggerToast }: any) {
     const [selectedIdx, setSelectedIdx] = useState(0);
@@ -107,43 +106,68 @@ export default function OrderPage() {
     const { addItem } = useCartStore();
     const [showToast, setShowToast] = useState(false);
 
-    const [menuData, setMenuData] = useState<any>(null);
-    const [loading, setLoading] = useState(true);
+    // const [menuData, setMenuData] = useState<any>(null);
+    // const [loading, setLoading] = useState(true);
+
+    const { data: menuData, isLoading, isError } = useQuery({
+        queryKey: ['menu'],
+        queryFn: getFullMenu,
+        staleTime: 1000 * 60 * 5, // Data blijft 5 minuten "vers" in de cache
+    });
 
     const triggerToast = () => {
         setShowToast(true);
         setTimeout(() => setShowToast(false), 2500); // Verdwijnt na 2.5 sec
     };
 
+    // 2. Scroll-to-hash logica: Wordt getriggerd zodra menuData beschikbaar is
     useEffect(() => {
-        getFullMenu().then(data => {
-            setMenuData(data);
-            setLoading(false);
-
-            if (window.location.hash) {
-                setTimeout(() => {
-                    const id = window.location.hash.substring(1);
-                    const element = document.getElementById(id);
-                    if (element) {
-                        const yOffset = -80; // adjust for sticky header
-                        const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
-                        window.scrollTo({ top: y, behavior: 'smooth' });
-                    }
-                }, 100);
+        if (!isLoading && menuData && window.location.hash) {
+            const id = window.location.hash.substring(1);
+            const element = document.getElementById(id);
+            if (element) {
+                // Kleine timeout om browser rendering tijd te geven
+                const timer = setTimeout(() => {
+                    const yOffset = -100;
+                    const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                }, 150);
+                return () => clearTimeout(timer);
             }
-        })
-            .catch(err => {
-                console.error("Menu laden mislukt:", err);
-                setLoading(false); // Stop met laden, ook bij error
-            });
-    }, []);
+        }
+    }, [isLoading, menuData]);
 
-    if (loading) {
-        return <div className="min-h-screen flex items-center justify-center font-bold italic text-bioGreen">Menu aan het laden...</div>;
+    // 3. LOADING STATE: Gebruik de Skeletons
+    if (isLoading) {
+        return (
+            <main className="bg-neutral-50 min-h-screen">
+                <section className="relative w-full h-[300px] md:h-[400px] bg-gray-200 animate-pulse" />
+                <div className="max-w-screen-xl mx-auto px-6 py-12">
+                    <div className="h-8 bg-gray-200 rounded-full w-48 mb-8 animate-pulse" />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {[...Array(8)].map((_, i) => <ProductSkeleton key={i} />)}
+                    </div>
+                </div>
+            </main>
+        );
     }
 
-    if (!menuData) {
-        return <div className="...">Er is iets misgegaan bij het laden van het menu.</div>;
+    // 4. ERROR STATE: Gebruikersvriendelijke melding
+    if (isError || !menuData) {
+        return (
+            <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center">
+                <h2 className="text-2xl font-bold text-gray-800 mb-2">Menu niet bereikbaar</h2>
+                <p className="text-gray-500 mb-6 max-w-sm">
+                    Het lijkt erop dat we onze sapjes-database even niet kunnen bereiken.
+                </p>
+                <button
+                    onClick={() => window.location.reload()}
+                    className="bg-bioGreen text-white px-8 py-3 rounded-full font-bold shadow-lg"
+                >
+                    Probeer het opnieuw
+                </button>
+            </div>
+        );
     }
 
     // De Weekly Special als een vast object

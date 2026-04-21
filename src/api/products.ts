@@ -29,7 +29,7 @@ import shot2 from "../assets/lybMenu/shot2.webp";
 import shot3 from "../assets/lybMenu/shot3.webp";
 import shot4 from "../assets/lybMenu/shot4.webp";
 import shot5 from "../assets/lybMenu/shot5.webp";
-import cleanseHeal from "../assets//bestelling/cleanseHeal.png";
+import cleanseHeal from "../assets//bestelling/cleanseHeal.webp";
 import sappenkuur from "../assets/bestelling/sappenkuur.webp";
 
 // --- De Data (Privé in dit bestand) ---
@@ -89,10 +89,10 @@ const MOCK_DATA = {
         options: [{ label: "3x 125 ml + 3x 350 ml + 3x 1000 ml", price: 850 }]
     },
     sappenkuur: [
-        { id: "sk01", name: "1-daagse", img: sappenkuur, description: "1 set van (1 vitaminewater, 3 greens, 4 fruits) + 1 GRATIS shot.", category: "detox", options: [{ label: "8 flessen (350 ml) + 1 shot GRATIS", price: 850 }] },
-        { id: "sk02", name: "3-daagse", img: sappenkuur, description: "3 sets van (1 vitaminewater, 3 greens, 4 fruits) + 3 GRATIS shots.", category: "detox", options: [{ label: "24 flessen (350 ml) + 3 shots GRATIS", price: 2500 }] },
-        { id: "sk03", name: "5-daagse", img: sappenkuur, description: "5 sets van (1 vitaminewater, 3 greens, 4 fruits) + 5 GRATIS shots.", category: "detox", options: [{ label: "40 flessen (350 ml) + 5 shots GRATIS", price: 4100 }] },
-        { id: "sk04", name: "7-daagse", img: sappenkuur, description: "7 sets van (1 vitaminewater, 3 greens, 4 fruits) + 7 GRATIS shots.", category: "detox", options: [{ label: "56 flessen (350 ml) + 7 shots GRATIS", price: 5700 }] }
+        { id: "sk01", name: "1-daagse", img: sappenkuur, description: "1 set van (1 vitaminewater, 3 greens, 4 fruits) + 1 GRATIS shot.", category: "For Comfort", options: [{ label: "8 flessen (350 ml) + 1 shot GRATIS", price: 850 }] },
+        { id: "sk02", name: "3-daagse", img: sappenkuur, description: "3 sets van (1 vitaminewater, 3 greens, 4 fruits) + 3 GRATIS shots.", category: "For Beginners", options: [{ label: "24 flessen (350 ml) + 3 shots GRATIS", price: 2500 }] },
+        { id: "sk03", name: "5-daagse", img: sappenkuur, description: "5 sets van (1 vitaminewater, 3 greens, 4 fruits) + 5 GRATIS shots.", category: "Most Popular", options: [{ label: "40 flessen (350 ml) + 5 shots GRATIS", price: 4100 }] },
+        { id: "sk04", name: "7-daagse", img: sappenkuur, description: "7 sets van (1 vitaminewater, 3 greens, 4 fruits) + 7 GRATIS shots.", category: "For Advanced", options: [{ label: "56 flessen (350 ml) + 7 shots GRATIS", price: 5700 }] }
     ],
     weeklyDeal: {
         id: "wd01",

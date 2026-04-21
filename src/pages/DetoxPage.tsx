@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCartStore } from "../store/useCartStore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { fadeInUp } from "../animations/Varianten";
 import SectionWrapper from "../animations/SectionWrapper";
 import detoxHero from "../assets/detox/detoxen.webp";
@@ -9,17 +9,13 @@ import fruitBg from "../assets/fluidButton.webp";
 import WipeButton from "../components/tools/Button";
 import { BiCheckCircle, BiTimeFive, BiWater, BiCoffeeTogo } from "react-icons/bi";
 import { IoCartOutline } from "react-icons/io5";
+import { getFullMenu } from "../api/products";
 
 export default function DetoxPage() {
     const { addItem } = useCartStore(); // Haal addItem uit de store
     const [showToast, setShowToast] = useState(false); // State voor de melding
-
-    const packages = [
-        { id: "detox-1", day: "1-daagse", label: "For Comfort", content: "8 flessen (350ml) + 1 wellness shot GRATIS", price: "SRD 850" },
-        { id: "detox-3", day: "3-daagse", label: "For Beginners", content: "24 flessen (350ml) + 1 wellness shot GRATIS", price: "SRD 2500" },
-        { id: "detox-5", day: "5-daagse", label: "Most Popular", content: "40 flessen (350ml) + 1L vitamine water GRATIS", price: "SRD 4100" },
-        { id: "detox-7", day: "7-daagse", label: "For Advanced", content: "56 flessen (350ml) + 2L vitamine water GRATIS", price: "SRD 5700" },
-    ];
+    const [menuData, setMenuData] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
 
     const benefits = [
         "Gewichtsverlies & Minder opgeblazen gevoel",
@@ -35,6 +31,37 @@ export default function DetoxPage() {
         const priceMatch = priceString.match(/SRD\s*(\d+)/);
         return priceMatch ? parseInt(priceMatch[1], 10) : 0;
     };
+
+    useEffect(() => {
+            getFullMenu().then(data => {
+                setMenuData(data);
+                setLoading(false);
+    
+                if (window.location.hash) {
+                    setTimeout(() => {
+                        const id = window.location.hash.substring(1);
+                        const element = document.getElementById(id);
+                        if (element) {
+                            const yOffset = -80; // adjust for sticky header
+                            const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+                            window.scrollTo({ top: y, behavior: 'smooth' });
+                        }
+                    }, 100);
+                }
+            })
+                .catch(err => {
+                    console.error("Menu laden mislukt:", err);
+                    setLoading(false); // Stop met laden, ook bij error
+                });
+        }, []);
+    
+        if (loading) {
+            return <div className="min-h-screen flex items-center justify-center font-bold italic text-bioGreen">Menu aan het laden...</div>;
+        }
+    
+        if (!menuData) {
+            return <div className="...">Er is iets misgegaan bij het laden van het menu.</div>;
+        }
 
     const handleAddToCart = (pkg: any) => {
         addItem({
@@ -131,16 +158,16 @@ export default function DetoxPage() {
                                 <motion.p variants={fadeInUp} className="body-text">Elke set bevat een mix van vitamine water (1), greens (3) en fruits (4).</motion.p>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-                                {packages.map((pkg, i) => (
+                                {menuData.sappenkuur.map((pkg: any, i: any) => (
                                     <motion.div
                                         key={i}
                                         variants={fadeInUp}
                                         className="bg-white rounded-2xl p-6 shadow-md border-t-4 border-bioGreen flex flex-col items-center text-center"
                                     >
-                                        <span className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">{pkg.label}</span>
-                                        <h3 className="text-2xl font-bold mb-4">{pkg.day}</h3>
-                                        <p className="text-sm text-gray-600 mb-6 flex-1">{pkg.content}</p>
-                                        <div className="text-xl font-black text-bioGreen mb-6">{pkg.price}</div>
+                                        <span className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">{pkg.category}</span>
+                                        <h3 className="text-2xl font-bold mb-4">{pkg.name}</h3>
+                                        <p className="text-sm text-gray-600 mb-6 flex-1">{pkg.description}</p>
+                                        <div className="text-xl font-black text-bioGreen mb-6">SRD {pkg.options?.[0]?.price}</div>
                                         <WipeButton
                                             onClick={() => handleAddToCart(pkg)}
                                             style={{ backgroundImage: `url(${fruitBg})` }}
