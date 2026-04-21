@@ -158,7 +158,16 @@ export default function OrderPage() {
     return (
         <>
             <Helmet>
-                <title>Bestel Direct | Verse Juices & Smoothies | LYB Suriname</title>
+                <title>Verse Juices & Smoothies Bestellen | Paramaribo | LYB</title>
+                <meta name="description" content="Bestel je favoriete verse sappen en smoothies online bij LYB. Levering in overleg in Paramaribo. Kies uit juices, smoothies, shots en meer!" />
+                <link rel="canonical" href="https://drinklyb.com/bestellen" />
+
+                {/* WhatsApp / Social Media Preview */}
+                <meta property="og:title" content="Bestel Direct je Verse Sappen bij LYB" />
+                <meta property="og:description" content="Kies je favoriete smaken en laat ze bezorgen. Gezondheid was nog nooit zo makkelijk." />
+                <meta property="og:image" content="https://drinklyb.com/order-preview.jpg" />
+                <meta property="og:url" content="https://drinklyb.com/bestellen" />
+                <meta property="og:type" content="website" />
             </Helmet>
 
             <main className="bg-neutral-50 min-h-screen">

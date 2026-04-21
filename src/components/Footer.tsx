@@ -64,9 +64,6 @@ export default function FooterSection() {
                   <Link to="/detoxen" className="footer-text hover:text-darkYellow transition px-2">Detoxen</Link>
                 </li>
                 <li className="basis-1/4 sm:basis-auto sm:px-4">
-                  <Link to="/menu" className="footer-text hover:text-darkYellow transition px-2">Menu</Link>
-                </li>
-                <li className="basis-1/4 sm:basis-auto sm:px-4">
                   <Link to="/benefits" className="footer-text hover:text-darkYellow transition px-2">Benefits</Link>
                 </li>
                 <li className="basis-1/4 sm:basis-auto sm:px-4">

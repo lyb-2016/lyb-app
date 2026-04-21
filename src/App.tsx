@@ -3,7 +3,6 @@ import { HelmetProvider } from 'react-helmet-async';
 import ScrollToTop from "./components/ScrollToTop";
 import Navbar from "./components/Navbar";
 import HomePage from "./page";
-import Menu from "./pages/Menu";
 import Footer from "./components/Footer";
 import About from "./pages/AboutUs";
 import WhatsApp from "./components/WhatsApp";
@@ -26,9 +25,7 @@ export default function App() {
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<HomePage />} />
-            
             <Route path="/bestellen" element={<OrderPage />} />
-            <Route path="/menu" element={<Menu />} />
             <Route path="/benefits" element={<Benefits />} />
             <Route path="/about" element={<About />} />
             <Route path="/faq" element={<FaqPage />} />

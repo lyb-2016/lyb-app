@@ -51,7 +51,6 @@ export default function Navbar() {
     { id: "home", label: "Home", path: "/" },
     { id: "bestellen", label: "Bestellen", path: "/bestellen" },
     { id: "detoxen", label: "Detoxen", path: "/detoxen" },
-    { id: "menu", label: "Menu", path: "/menu" },
     { id: "benefits", label: "Benefits", path: "/benefits" },
     { id: "faq", label: "FAQ", path: "/faq" },
     { id: "about", label: "Over ons", path: "/about" },
