@@ -175,10 +175,22 @@ const getImagePath = (fileName: string | null | undefined) => {
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const getFullMenu = async () => {
-    const response = await fetch(`${API_URL}/menu`);
+    const response = await fetch(`${API_URL}/Products`);
     if (!response.ok) throw new Error("Netwerk respons was niet ok");
-    const data = await response.json();
+    const flatData = await response.json();
     
+    // De backend geeft momenteel een platte lijst van alle producten terug in plaats van gegroepeerde categorieën.
+    // We filteren dit op de frontend om de applicatie te laten werken totdat de API ook categorieën teruggeeft.
+    const data = {
+        juices: flatData.filter((p: any) => p.category === "juices"),
+        smoothies: flatData.filter((p: any) => p.category === "smoothies"),
+        wellnessShots: flatData.filter((p: any) => p.category === "shots"),
+        vitamineWater: flatData.filter((p: any) => p.category === "vitamine-water"),
+        cleanseAndHeal: flatData.find((p: any) => p.category === "cleanse-and-heal") || MOCK_DATA.cleanseAndHeal,
+        sappenkuur: flatData.filter((p: any) => ["For Comfort", "For Beginners", "Most Popular", "For Advanced"].includes(p.category)),
+        weeklyDeal: flatData.find((p: any) => p.category === "specials") || MOCK_DATA.weeklyDeal
+    };
+
     // We mappen de data zodat de 'img' string wordt vervangen door de lokale asset
     // Dit is nodig omdat je plaatjes nog lokaal in je frontend staan
     return {
@@ -186,10 +198,10 @@ export const getFullMenu = async () => {
         juices: data.juices.map((p: any) => ({ ...p, img: getImagePath(p.img) })),
         smoothies: data.smoothies.map((p: any) => ({ ...p, img: getImagePath(p.img) })),
         wellnessShots: data.wellnessShots.map((p: any) => ({ ...p, img: getImagePath(p.img) })),
-        vitamineWater: data.wellnessShots.map((p: any) => ({ ...p, img: getImagePath(p.img) })),
-        cleanseAndHeal: { ...data.cleanseAndHeal, img: getImagePath(data.cleanseAndHeal.img) },
+        vitamineWater: data.vitamineWater.map((p: any) => ({ ...p, img: getImagePath(p.img) })),
+        cleanseAndHeal: { ...data.cleanseAndHeal, img: getImagePath(data.cleanseAndHeal?.img) },
         sappenkuur: data.sappenkuur.map((p: any) => ({ ...p, img: getImagePath(p.img) })),
-        weeklyDeal: { ...data.weeklyDeal, img: getImagePath(data.weeklyDeal.img) }
+        weeklyDeal: { ...data.weeklyDeal, img: getImagePath(data.weeklyDeal?.img) }
     };
 };
 
