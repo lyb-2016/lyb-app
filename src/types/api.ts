@@ -11,9 +11,3 @@ export interface Product {
   category: string;
   options: ProductOption[]; // Altijd een array, zelfs als er maar 1 optie is
 }
-
-export interface CategoryData {
-  id: string;
-  title: string;
-  items: Product[];
-}

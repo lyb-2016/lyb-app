@@ -11,7 +11,7 @@ import {
     IoAlertCircleOutline,
     IoSparklesOutline
 } from "react-icons/io5";
-import { juicesAndSmoothies } from '../data/menuData';
+
 
 interface ScratchModalProps {
     onComplete: () => void;
@@ -163,11 +163,13 @@ export default function CartSidebar() {
 
     useEffect(() => {
         if (subtotal >= MINIMUM_SPEND && !randomGift) {
-            // Pak alle items uit alle categorieën van juicesAndSmoothies
-            const allAvailableItems = juicesAndSmoothies.flatMap(category => category.items);
-            // Kies een willekeurig item
-            const randomIndex = Math.floor(Math.random() * allAvailableItems.length);
-            setRandomGift(allAvailableItems[randomIndex]);
+            import('../api/products').then(({ getJuices, getSmoothies }) => {
+                Promise.all([getJuices(), getSmoothies()]).then(([juices, smoothies]) => {
+                    const allAvailableItems = [...juices, ...smoothies];
+                    const randomIndex = Math.floor(Math.random() * allAvailableItems.length);
+                    setRandomGift(allAvailableItems[randomIndex]);
+                });
+            });
         } else if (subtotal < MINIMUM_SPEND && !hasWonGift) {
             // Reset cadeau als ze weer onder de 500 zakken (en nog niet gekrast hebben)
             setRandomGift(null);

@@ -1,4 +1,4 @@
-import type { Product, CategoryData } from "../types/api";
+import type { Product } from "../types/api";
 
 // Importeer alle assets (deze blijven voor nu lokaal)
 import juice1 from "../assets/lybMenu/juice-1.webp";
@@ -9,6 +9,24 @@ import juice5 from "../assets/lybMenu/juice-5.webp";
 import juice6 from "../assets/lybMenu/juice-6.webp";
 import juice7 from "../assets/lybMenu/juice-7.webp";
 import juice8 from "../assets/lybMenu/juice-8.webp";
+import juice9 from "../assets/lybMenu/juice-9.webp";
+import juice10 from "../assets/lybMenu/juice-10.webp";
+import juice11 from "../assets/lybMenu/juice-11.webp";
+import juice12 from "../assets/lybMenu/juice-12.webp";
+import juice13 from "../assets/lybMenu/juice-13.webp";
+import juice14 from "../assets/lybMenu/juice-14.webp";
+import juice15 from "../assets/lybMenu/juice-15.webp";
+import juice16 from "../assets/lybMenu/juice-16.webp";
+import juice17 from "../assets/lybMenu/juice-17.webp";
+import juice18 from "../assets/lybMenu/juice-18.webp";
+import smoothie1 from "../assets/lybMenu/smoothie-1.webp";
+import smoothie2 from "../assets/lybMenu/smoothie-2.webp";
+import smoothie3 from "../assets/lybMenu/smoothie-3.webp";
+import smoothie4 from "../assets/lybMenu/smoothie-4.webp";
+import smoothie5 from "../assets/lybMenu/smoothie-5.webp";
+import smoothie6 from "../assets/lybMenu/smoothie-6.webp";
+import smoothie7 from "../assets/lybMenu/smoothie-7.webp";
+import smoothie8 from "../assets/lybMenu/smoothie-8.webp";
 import smoothie9 from "../assets/lybMenu/smoothie-9.webp";
 import smoothie10 from "../assets/lybMenu/smoothie-10.webp";
 import smoothie11 from "../assets/lybMenu/smoothie-11.webp";
@@ -16,7 +34,6 @@ import smoothie12 from "../assets/lybMenu/smoothie-12.webp";
 import smoothie13 from "../assets/lybMenu/smoothie-13.webp";
 import smoothie14 from "../assets/lybMenu/smoothie-14.webp";
 import smoothie15 from "../assets/lybMenu/smoothie-15.webp";
-import smoothie16 from "../assets/lybMenu/smoothie-16.webp";
 import vit1 from "../assets/lybMenu/vitwater1.webp";
 import vit2 from "../assets/lybMenu/vitwater2.webp";
 import vit3 from "../assets/lybMenu/vitwater3.webp";
@@ -31,38 +48,31 @@ import shot4 from "../assets/lybMenu/shot4.webp";
 import shot5 from "../assets/lybMenu/shot5.webp";
 import cleanseHeal from "../assets//bestelling/cleanseHeal.webp";
 import sappenkuur from "../assets/bestelling/sappenkuur.webp";
+import specials from "../assets/bestelling/comboSpecial.webp";
+
+// import { vitamineWater, wellnessShots } from "../data/menuData";
 
 // --- De Data (Privé in dit bestand) ---
 const MOCK_DATA = {
-    juicesAndSmoothies: [
-        {
-            id: "juices",
-            title: "Juices",
-            items: [
-                { id: "ju01", name: "ananas-lemmetje", img: juice1, category: "juices", options: [{ label: "350 ml", price: 100 }, { label: "1000 ml", price: 230 }] },
-                { id: "ju02", name: "chia-zuurzak", img: juice2, category: "juices", options: [{ label: "350 ml", price: 100 }, { label: "1000 ml", price: 230 }] },
-                { id: "ju03", name: "chia-aardbei", img: juice3, category: "juices", options: [{ label: "350 ml", price: 100 }, { label: "1000 ml", price: 230 }] },
-                { id: "ju04", name: "papaja-kers", img: juice4, category: "juices", options: [{ label: "350 ml", price: 100 }, { label: "1000 ml", price: 230 }] },
-                { id: "ju05", name: "awarra", img: juice5, category: "juices", options: [{ label: "350 ml", price: 100 }, { label: "1000 ml", price: 230 }] },
-                { id: "ju06", name: "basilicum-lemmetje-moringa", img: juice6, category: "juices", options: [{ label: "350 ml", price: 100 }, { label: "1000 ml", price: 230 }] },
-                { id: "ju07", name: "sopropo-zuurzak-moringa", img: juice7, category: "juices", options: [{ label: "350 ml", price: 100 }, { label: "1000 ml", price: 230 }] },
-                { id: "ju08", name: "avocado-ananas-moringa", img: juice8, category: "juices", options: [{ label: "350 ml", price: 100 }, { label: "1000 ml", price: 230 }] }
-            ]
-        },
-        {
-            id: "smoothies",
-            title: "Smoothies",
-            items: [
-                { id: "sm01", name: "ananas-framboos-bacove", img: smoothie9, category: "smoothies", options: [{ label: "350 ml", price: 115 }, { label: "1000 ml", price: 260 }] },
-                { id: "sm02", name: "zuurzak-aardbei-bacove", img: smoothie10, category: "smoothies", options: [{ label: "350 ml", price: 115 }, { label: "1000 ml", price: 260 }] },
-                { id: "sm03", name: "manja-markoesa-bacove", img: smoothie11, category: "smoothies", options: [{ label: "350 ml", price: 115 }, { label: "1000 ml", price: 260 }] },
-                { id: "sm04", name: "awarra-bacove", img: smoothie12, category: "smoothies", options: [{ label: "350 ml", price: 115 }, { label: "1000 ml", price: 260 }] },
-                { id: "sm05", name: "podosiri-kers-bacove", img: smoothie13, category: "smoothies", options: [{ label: "350 ml", price: 115 }, { label: "1000 ml", price: 260 }] },
-                { id: "sm06", name: "spinazie-kers-bacove-moringa", img: smoothie14, category: "smoothies", options: [{ label: "350 ml", price: 115 }, { label: "1000 ml", price: 260 }] },
-                { id: "sm07", name: "sopropo-pommeciter-bacove-moringa", img: smoothie15, category: "smoothies", options: [{ label: "350 ml", price: 115 }, { label: "1000 ml", price: 260 }] },
-                { id: "sm08", name: "komkommer-gember-lemmetje-moringa", img: smoothie16, category: "smoothies", options: [{ label: "350 ml", price: 115 }, { label: "1000 ml", price: 260 }] }
-            ]
-        }
+    juices: [
+        { id: "ju01", name: "ananas-lemmetje", img: juice1, category: "juices", options: [{ label: "350 ml", price: 100 }, { label: "1000 ml", price: 230 }] },
+        { id: "ju02", name: "chia-zuurzak", img: juice2, category: "juices", options: [{ label: "350 ml", price: 100 }, { label: "1000 ml", price: 230 }] },
+        { id: "ju03", name: "chia-aardbei", img: juice3, category: "juices", options: [{ label: "350 ml", price: 100 }, { label: "1000 ml", price: 230 }] },
+        { id: "ju04", name: "papaja-kers", img: juice4, category: "juices", options: [{ label: "350 ml", price: 100 }, { label: "1000 ml", price: 230 }] },
+        { id: "ju05", name: "awarra", img: juice5, category: "juices", options: [{ label: "350 ml", price: 100 }, { label: "1000 ml", price: 230 }] },
+        { id: "ju06", name: "basilicum-lemmetje-moringa", img: juice6, category: "juices", options: [{ label: "350 ml", price: 100 }, { label: "1000 ml", price: 230 }] },
+        { id: "ju07", name: "sopropo-zuurzak-moringa", img: juice7, category: "juices", options: [{ label: "350 ml", price: 100 }, { label: "1000 ml", price: 230 }] },
+        { id: "ju08", name: "avocado-ananas-moringa", img: juice8, category: "juices", options: [{ label: "350 ml", price: 100 }, { label: "1000 ml", price: 230 }] }
+    ],
+    smoothies: [
+        { id: "sm01", name: "ananas-framboos-bacove", img: smoothie1, category: "smoothies", options: [{ label: "350 ml", price: 115 }, { label: "1000 ml", price: 260 }] },
+        { id: "sm02", name: "zuurzak-aardbei-bacove", img: smoothie2, category: "smoothies", options: [{ label: "350 ml", price: 115 }, { label: "1000 ml", price: 260 }] },
+        { id: "sm03", name: "manja-markoesa-bacove", img: smoothie3, category: "smoothies", options: [{ label: "350 ml", price: 115 }, { label: "1000 ml", price: 260 }] },
+        { id: "sm04", name: "awarra-bacove", img: smoothie4, category: "smoothies", options: [{ label: "350 ml", price: 115 }, { label: "1000 ml", price: 260 }] },
+        { id: "sm05", name: "podosiri-kers-bacove", img: smoothie5, category: "smoothies", options: [{ label: "350 ml", price: 115 }, { label: "1000 ml", price: 260 }] },
+        { id: "sm06", name: "spinazie-kers-bacove-moringa", img: smoothie6, category: "smoothies", options: [{ label: "350 ml", price: 115 }, { label: "1000 ml", price: 260 }] },
+        { id: "sm07", name: "sopropo-pommeciter-bacove-moringa", img: smoothie7, category: "smoothies", options: [{ label: "350 ml", price: 115 }, { label: "1000 ml", price: 260 }] },
+        { id: "sm08", name: "komkommer-gember-lemmetje-moringa", img: smoothie8, category: "smoothies", options: [{ label: "350 ml", price: 115 }, { label: "1000 ml", price: 260 }] }
     ],
     wellnessShots: [
         { id: "ws01", name: "kurkuma-kers-zwarte peper", img: shot1, category: "shots", options: [{ label: "7x 125 ml", price: 500 }] },
@@ -104,6 +114,85 @@ const MOCK_DATA = {
     }
 };
 
+// Maak een object dat de string-naam koppelt aan de geïmporteerde asset
+const imageMap: Record<string, string> = {
+    "juice-1.webp": juice1,
+    "juice-2.webp": juice2,
+    "juice-3.webp": juice3,
+    "juice-4.webp": juice4,
+    "juice-5.webp": juice5,
+    "juice-6.webp": juice6,
+    "juice-7.webp": juice7,
+    "juice-8.webp": juice8,
+    "juice-9.webp": juice9,
+    "juice-10.webp": juice10,
+    "juice-11.webp": juice11,
+    "juice-12.webp": juice12,
+    "juice-13.webp": juice13,
+    "juice-14.webp": juice14,
+    "juice-15.webp": juice15,
+    "juice-16.webp": juice16,
+    "juice-17.webp": juice17,
+    "juice-18.webp": juice18,
+    "smoothie-1.webp": smoothie1,
+    "smoothie-2.webp": smoothie2,
+    "smoothie-3.webp": smoothie3,
+    "smoothie-4.webp": smoothie4,
+    "smoothie-5.webp": smoothie5,
+    "smoothie-6.webp": smoothie6,
+    "smoothie-7.webp": smoothie7,
+    "smoothie-8.webp": smoothie8,
+    "smoothie-9.webp": smoothie9,
+    "smoothie-10.webp": smoothie10,
+    "smoothie-11.webp": smoothie11,
+    "smoothie-12.webp": smoothie12,
+    "smoothie-13.webp": smoothie13,
+    "smoothie-14.webp": smoothie14,
+    "smoothie-15.webp": smoothie15,
+    "shot1.webp": shot1,
+    "shot2.webp": shot2,
+    "shot3.webp": shot3,
+    "shot4.webp": shot4,
+    "shot5.webp": shot5,
+    "vitwater1.webp": vit1,
+    "vitwater2.webp": vit2,
+    "vitwater3.webp": vit3,
+    "vitwater4.webp": vit4,
+    "vitwater5.webp": vit5,
+    "vitwater6.webp": vit6,
+    "vitwater7.webp": vit7,
+    "cleanseHeal.webp": cleanseHeal,
+    "sappenkuur.webp": sappenkuur,
+    "specials.webp": specials
+};
+
+// Helper om het juiste plaatje te vinden
+const getImagePath = (fileName: string | null | undefined) => {
+    if (!fileName) return juice1; // fallback
+    return imageMap[fileName] || juice1;
+};
+
+const API_URL = import.meta.env.VITE_API_URL;
+
+export const getFullMenu = async () => {
+    const response = await fetch(`${API_URL}/menu`);
+    if (!response.ok) throw new Error("Netwerk respons was niet ok");
+    const data = await response.json();
+    
+    // We mappen de data zodat de 'img' string wordt vervangen door de lokale asset
+    // Dit is nodig omdat je plaatjes nog lokaal in je frontend staan
+    return {
+        ...data,
+        juices: data.juices.map((p: any) => ({ ...p, img: getImagePath(p.img) })),
+        smoothies: data.smoothies.map((p: any) => ({ ...p, img: getImagePath(p.img) })),
+        wellnessShots: data.wellnessShots.map((p: any) => ({ ...p, img: getImagePath(p.img) })),
+        vitamineWater: data.wellnessShots.map((p: any) => ({ ...p, img: getImagePath(p.img) })),
+        cleanseAndHeal: { ...data.cleanseAndHeal, img: getImagePath(data.cleanseAndHeal.img) },
+        sappenkuur: data.sappenkuur.map((p: any) => ({ ...p, img: getImagePath(p.img) })),
+        weeklyDeal: { ...data.weeklyDeal, img: getImagePath(data.weeklyDeal.img) }
+    };
+};
+
 // --- API Functies ---
 
 // Simuleer een netwerkvertraging
@@ -121,14 +210,19 @@ const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 //   });
 // };
 
-export const getFullMenu = async () => {
-    await delay(800); // 0.8 seconde 'laadtijd'
-    return MOCK_DATA;
+// export const getFullMenu = async () => {
+//     await delay(800); // 0.8 seconde 'laadtijd'
+//     return MOCK_DATA;
+// };
+
+export const getJuices = async (): Promise<Product[]> => {
+    await delay(500);
+    return MOCK_DATA.juices;
 };
 
-export const getJuicesAndSmoothies = async (): Promise<CategoryData[]> => {
+export const getSmoothies = async (): Promise<Product[]> => {
     await delay(500);
-    return MOCK_DATA.juicesAndSmoothies;
+    return MOCK_DATA.smoothies;
 };
 
 export const getWellnessShots = async (): Promise<Product[]> => {

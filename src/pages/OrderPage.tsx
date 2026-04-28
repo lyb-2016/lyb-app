@@ -106,9 +106,6 @@ export default function OrderPage() {
     const { addItem } = useCartStore();
     const [showToast, setShowToast] = useState(false);
 
-    // const [menuData, setMenuData] = useState<any>(null);
-    // const [loading, setLoading] = useState(true);
-
     const { data: menuData, isLoading, isError } = useQuery({
         queryKey: ['menu'],
         queryFn: getFullMenu,
@@ -224,12 +221,6 @@ export default function OrderPage() {
                                     Bij elke bestelling boven de <span className="text-white underline underline-offset-4">SRD 500</span>. Wat ga jij winnen?
                                 </p>
                             </div>
-
-                            {/* <div className="relative z-10 flex flex-col items-center">
-                                <div className="bg-white p-4 rounded-3xl shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500 group">
-                                    <IoGiftOutline size={50} className="text-orange-500 animate-bounce" />
-                                </div>
-                            </div> */}
                         </motion.div>
                     </div>
 
@@ -279,36 +270,61 @@ export default function OrderPage() {
 
                     </section>
 
-                    {menuData.juicesAndSmoothies?.map((category: any) => (
-                        <div key={category.id} id={category.id}>
-                            <h2 className="text-3xl font-black italic mb-8 border-l-8 border-bioGreen pl-4">{category.title}</h2>
-                            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 mb-16">
-                                {category.items?.map((item: any) => (
-                                    <div
-                                        key={item.id}
-                                        className="bg-white px-3 py-3 shadow-xs border border-gray-100 flex flex-col"
-                                    >
-
-                                        <div className="h-40 flex items-center justify-center mb-1">
-                                            <img src={item.img} alt={item.name} className="max-h-full w-auto object-contain drop-shadow-xl" />
-                                        </div>
-
-
-                                        <div className="flex-grow flex flex-col">
-                                            <h4 className="font-bold text-gray-800 mb-1 leading-tight capitalize text-sm">
-                                                {item.name}
-                                            </h4>
-                                            <ProductAddToCart
-                                                item={item}
-                                                addItem={addItem}
-                                                triggerToast={triggerToast}
-                                            />
-                                        </div>
+                    {/* Juices */}
+                    <div id="juices">
+                        <h2 className="text-3xl font-black italic mb-8 border-l-8 border-bioGreen pl-4">Juices</h2>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 mb-16">
+                            {menuData.juices?.map((item: any) => (
+                                <div
+                                    key={item.id}
+                                    className="bg-white px-3 py-3 shadow-xs border border-gray-100 flex flex-col"
+                                >
+                                    <div className="h-40 flex items-center justify-center mb-1">
+                                        <img src={item.img} alt={item.name} className="max-h-full w-auto object-contain drop-shadow-xl" />
                                     </div>
-                                ))}
-                            </div>
+
+                                    <div className="flex-grow flex flex-col">
+                                        <h4 className="font-bold text-gray-800 mb-1 leading-tight capitalize text-sm">
+                                            {item.name}
+                                        </h4>
+                                        <ProductAddToCart
+                                            item={item}
+                                            addItem={addItem}
+                                            triggerToast={triggerToast}
+                                        />
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                    ))}
+                    </div>
+
+                    {/* Smoothies */}
+                    <div id="smoothies">
+                        <h2 className="text-3xl font-black italic mb-8 border-l-8 border-bioGreen pl-4">Smoothies</h2>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 mb-16">
+                            {menuData.smoothies?.map((item: any) => (
+                                <div
+                                    key={item.id}
+                                    className="bg-white px-3 py-3 shadow-xs border border-gray-100 flex flex-col"
+                                >
+                                    <div className="h-40 flex items-center justify-center mb-1">
+                                        <img src={item.img} alt={item.name} className="max-h-full w-auto object-contain drop-shadow-xl" />
+                                    </div>
+
+                                    <div className="flex-grow flex flex-col">
+                                        <h4 className="font-bold text-gray-800 mb-1 leading-tight capitalize text-sm">
+                                            {item.name}
+                                        </h4>
+                                        <ProductAddToCart
+                                            item={item}
+                                            addItem={addItem}
+                                            triggerToast={triggerToast}
+                                        />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
 
                     {/* Wellness Shots */}
                     <div id="shots">
