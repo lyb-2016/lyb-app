@@ -7,7 +7,6 @@ import { useCartStore } from "../store/useCartStore";
 import { getFullMenu } from "../api/products";
 import ProductSkeleton from "../components/ProductSkeleton";
 import { IoCartOutline, IoChevronDownOutline, IoSparklesOutline } from "react-icons/io5";
-import specialImg from "../assets/bestelling/comboSpecial.webp";
 import banner from "../assets/bestelling/bestelling.webp";
 
 function ProductAddToCart({ item, addItem, triggerToast }: any) {
@@ -172,8 +171,8 @@ export default function OrderPage() {
         id: menuData.weeklyDeal.id,
         name: menuData.weeklyDeal.name,
         price: menuData.weeklyDeal.options?.[0]?.price, // Vaste prijs
-        description: "Compleet pakket: 2 juices en 2 smoothies van 350 ml & 1 Kurkuma & Kers vitaminewater van 1L.",
-        img: specialImg
+        description: menuData.weeklyDeal.description,
+        img: menuData.weeklyDeal.img
     };
 
     return (

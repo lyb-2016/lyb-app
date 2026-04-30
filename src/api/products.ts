@@ -166,66 +166,59 @@ const imageMap: Record<string, string> = {
     "specials.webp": specials
 };
 
-// Helper om het juiste plaatje te vinden
-const getImagePath = (fileName: string | null | undefined) => {
-    if (!fileName) return juice1; // fallback
-    return imageMap[fileName] || juice1;
-};
-
 const API_URL = import.meta.env.VITE_API_URL;
+
+const BASE_URL = API_URL.split('/api')[0];
+
+export const getProductImage = (imgName: string | null | undefined): string => {
+    if (!imgName) return juice1; // Fallback naar een standaard sapje
+
+    // 1. Is het een externe URL (bijv. Cloudinary)?
+    if (imgName.startsWith('http')) {
+        return imgName;
+    }
+
+    // 2. Is het een lokale asset die we in onze imageMap hebben?
+    if (imageMap[imgName]) {
+        return imageMap[imgName];
+    }
+
+    // 3. Als het geen van beide is, is het een nieuwe upload op de backend
+    return `${BASE_URL}/uploads/${imgName}`;
+};
 
 export const getFullMenu = async () => {
     const response = await fetch(`${API_URL}/Products`);
     if (!response.ok) throw new Error("Netwerk respons was niet ok");
+
     const flatData = await response.json();
-    
-    // De backend geeft momenteel een platte lijst van alle producten terug in plaats van gegroepeerde categorieën.
-    // We filteren dit op de frontend om de applicatie te laten werken totdat de API ook categorieën teruggeeft.
+
+    // Helper om een product te mappen met de juiste afbeelding
+    const mapProduct = (p: any) => ({
+        ...p,
+        img: getProductImage(p.img)
+    });
+
     const data = {
-        juices: flatData.filter((p: any) => p.category === "juices"),
-        smoothies: flatData.filter((p: any) => p.category === "smoothies"),
-        wellnessShots: flatData.filter((p: any) => p.category === "shots"),
-        vitamineWater: flatData.filter((p: any) => p.category === "vitamine-water"),
-        cleanseAndHeal: flatData.find((p: any) => p.category === "cleanse-and-heal") || MOCK_DATA.cleanseAndHeal,
-        sappenkuur: flatData.filter((p: any) => ["For Comfort", "For Beginners", "Most Popular", "For Advanced"].includes(p.category)),
-        weeklyDeal: flatData.find((p: any) => p.category === "specials") || MOCK_DATA.weeklyDeal
+        juices: flatData.filter((p: any) => p.category === "juices").map(mapProduct),
+        smoothies: flatData.filter((p: any) => p.category === "smoothies").map(mapProduct),
+        wellnessShots: flatData.filter((p: any) => p.category === "shots").map(mapProduct),
+        vitamineWater: flatData.filter((p: any) => p.category === "vitamine-water").map(mapProduct),
+        // Voor de single objects (cleanseAndHeal en weeklyDeal):
+        cleanseAndHeal: mapProduct(flatData.find((p: any) => p.category === "cleanse-and-heal") || {}),
+        sappenkuur: flatData.filter((p: any) =>
+            ["For Comfort", "For Beginners", "Most Popular", "For Advanced"].includes(p.category)
+        ).map(mapProduct),
+        weeklyDeal: mapProduct(flatData.find((p: any) => p.category === "specials") || {})
     };
 
-    // We mappen de data zodat de 'img' string wordt vervangen door de lokale asset
-    // Dit is nodig omdat je plaatjes nog lokaal in je frontend staan
-    return {
-        ...data,
-        juices: data.juices.map((p: any) => ({ ...p, img: getImagePath(p.img) })),
-        smoothies: data.smoothies.map((p: any) => ({ ...p, img: getImagePath(p.img) })),
-        wellnessShots: data.wellnessShots.map((p: any) => ({ ...p, img: getImagePath(p.img) })),
-        vitamineWater: data.vitamineWater.map((p: any) => ({ ...p, img: getImagePath(p.img) })),
-        cleanseAndHeal: { ...data.cleanseAndHeal, img: getImagePath(data.cleanseAndHeal?.img) },
-        sappenkuur: data.sappenkuur.map((p: any) => ({ ...p, img: getImagePath(p.img) })),
-        weeklyDeal: { ...data.weeklyDeal, img: getImagePath(data.weeklyDeal?.img) }
-    };
+    return data;
 };
 
 // --- API Functies ---
 
 // Simuleer een netwerkvertraging
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
-
-
-// Wanneer de .NET developer klaar is, verander je in getFullMenu de code naar fetch('https://api.lyb.com/products') en de rest van je hele applicatie blijft gewoon werken.
-
-// // Voorbeeld van een voorbereide API call
-// export const fetchMenu = async (): Promise<CategoryData[]> => {
-//   // Straks vervang je dit door: const res = await fetch('https://api.lyb.com/menu');
-//   // Voor nu simuleren we de vertraging van een server:
-//   return new Promise((resolve) => {
-//     setTimeout(() => resolve(mockData), 500); 
-//   });
-// };
-
-// export const getFullMenu = async () => {
-//     await delay(800); // 0.8 seconde 'laadtijd'
-//     return MOCK_DATA;
-// };
 
 export const getJuices = async (): Promise<Product[]> => {
     await delay(500);
